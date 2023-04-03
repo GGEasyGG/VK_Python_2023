@@ -1,9 +1,25 @@
 import io
+import os
 import unittest
+import tempfile
 from file_generator import search_lines
 
 
 class TestSearchLines(unittest.TestCase):
+    def test_file_name_as_str(self):
+        with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
+            f.write("The quick brown fox\nJumps over the lazy dog\nA rose fell on the paw of Azor\n")
+
+        search_words = ["fox", "rose"]
+        result = list(search_lines(f.name, search_words))
+        self.assertEqual(result, ["The quick brown fox", "A rose fell on the paw of Azor"])
+
+        search_words = ["paw"]
+        result = list(search_lines(f.name, search_words))
+        self.assertEqual(result, ["A rose fell on the paw of Azor"])
+
+        os.remove(f.name)
+
     def test_empty_file(self):
         file = io.StringIO('')
         search_words = ['apple', 'orange', 'banana']
@@ -112,7 +128,7 @@ class TestSearchLines(unittest.TestCase):
 
         file = 'fdksfjjd'
         search_words = ['apples', 'bananas', 'oranges']
-        with self.assertRaises(TypeError):
+        with self.assertRaises(FileNotFoundError):
             list(search_lines(file, search_words))
 
         file = io.BytesIO(b'fdksfjjd')
