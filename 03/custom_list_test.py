@@ -1,5 +1,14 @@
 import unittest
 from custom_list import CustomList
+import math
+
+
+def custom_eq(custom_list, expected_result):
+    if len(custom_list) != len(expected_result):
+        return False
+    
+    return all([x == y if (isinstance(x, int) and isinstance(y, int)) else math.isclose(x, y) \
+                for x, y in zip(custom_list, expected_result)])
 
 
 class TestCustomList(unittest.TestCase):
@@ -57,117 +66,187 @@ class TestCustomList(unittest.TestCase):
 
     def test_custom_list_add_custom_list(self):
         custom_list_1 = CustomList([1, 2, 3, 4])
+        expected_custom_list_1 = CustomList([1, 2, 3, 4])
         custom_list_2 = CustomList([5, 6, 7, 8])
+        expected_custom_list_2 = CustomList([5, 6, 7, 8])
+        result = custom_list_1 + custom_list_2
         expected_result = CustomList([6, 8, 10, 12])
-        self.assertEqual(custom_list_1 + custom_list_2, expected_result)
+        self.assertTrue(isinstance(result, CustomList))
+        self.assertTrue(custom_eq(result, expected_result))
+        self.assertTrue(custom_eq(custom_list_1, expected_custom_list_1))
+        self.assertTrue(custom_eq(custom_list_2, expected_custom_list_2))
 
         custom_list_1 = CustomList([1.1, 2.2, 3.3, 4.4])
+        expected_custom_list_1 = CustomList([1.1, 2.2, 3.3, 4.4])
         custom_list_2 = CustomList([5.1, 6.2, 7.3, 8.4])
+        expected_custom_list_2 = CustomList([5.1, 6.2, 7.3, 8.4])
+        result = custom_list_1 + custom_list_2
         expected_result = CustomList([6.2, 8.4, 10.6, 12.8])
-        self.assertEqual(custom_list_1 + custom_list_2, expected_result)
+        self.assertTrue(isinstance(result, CustomList))
+        self.assertTrue(custom_eq(result, expected_result))
+        self.assertTrue(custom_eq(custom_list_1, expected_custom_list_1))
+        self.assertTrue(custom_eq(custom_list_2, expected_custom_list_2))
 
         custom_list_1 = CustomList([1.1, 2.2, 3.3, 4.4])
+        expected_custom_list_1 = CustomList([1.1, 2.2, 3.3, 4.4])
         custom_list_2 = CustomList([5, 6, 7, 8])
+        expected_custom_list_2 = CustomList([5, 6, 7, 8])
+        result = custom_list_1 + custom_list_2
         expected_result = CustomList([6.1, 8.2, 10.3, 12.4])
-        self.assertEqual(custom_list_1 + custom_list_2, expected_result)
+        self.assertTrue(isinstance(result, CustomList))
+        self.assertTrue(custom_eq(result, expected_result))
+        self.assertTrue(custom_eq(custom_list_1, expected_custom_list_1))
+        self.assertTrue(custom_eq(custom_list_2, expected_custom_list_2))
 
         custom_list_1 = CustomList([1.1, 2, 3.3, 4])
+        expected_custom_list_1 = CustomList([1.1, 2, 3.3, 4])
         custom_list_2 = CustomList([5, 6.2, 7, 8.4])
+        expected_custom_list_2 = CustomList([5, 6.2, 7, 8.4])
+        result = custom_list_1 + custom_list_2
         expected_result = CustomList([6.1, 8.2, 10.3, 12.4])
-        self.assertEqual(custom_list_1 + custom_list_2, expected_result)
+        self.assertTrue(isinstance(result, CustomList))
+        self.assertTrue(custom_eq(result, expected_result))
+        self.assertTrue(custom_eq(custom_list_1, expected_custom_list_1))
+        self.assertTrue(custom_eq(custom_list_2, expected_custom_list_2))
 
     def test_custom_list_add_custom_list_with_different_length(self):
         custom_list_1 = CustomList([1, 2])
+        expected_custom_list_1 = CustomList([1, 2])
         custom_list_2 = CustomList([5, 6, 7, 8])
+        expected_custom_list_2 = CustomList([5, 6, 7, 8])
+        result = custom_list_1 + custom_list_2
         expected_result = CustomList([6, 8, 7, 8])
-        self.assertEqual(custom_list_1 + custom_list_2, expected_result)
+        self.assertTrue(isinstance(result, CustomList))
+        self.assertTrue(custom_eq(result, expected_result))
+        self.assertTrue(custom_eq(custom_list_1, expected_custom_list_1))
+        self.assertTrue(custom_eq(custom_list_2, expected_custom_list_2))
 
         custom_list_1 = CustomList([1, 2, 3])
+        expected_custom_list_1 = CustomList([1, 2, 3])
         custom_list_2 = CustomList([5, 6, 7, 8])
+        expected_custom_list_2 = CustomList([5, 6, 7, 8])
+        result = custom_list_1 + custom_list_2
         expected_result = CustomList([6, 8, 10, 8])
-        self.assertEqual(custom_list_1 + custom_list_2, expected_result)
+        self.assertTrue(isinstance(result, CustomList))
+        self.assertTrue(custom_eq(result, expected_result))
+        self.assertTrue(custom_eq(custom_list_1, expected_custom_list_1))
+        self.assertTrue(custom_eq(custom_list_2, expected_custom_list_2))
 
         custom_list_1 = CustomList([1])
+        expected_custom_list_1 = CustomList([1])
         custom_list_2 = CustomList([5, 6, 7, 8])
+        expected_custom_list_2 = CustomList([5, 6, 7, 8])
+        result = custom_list_1 + custom_list_2
         expected_result = CustomList([6, 6, 7, 8])
-        self.assertEqual(custom_list_1 + custom_list_2, expected_result)
+        self.assertTrue(isinstance(result, CustomList))
+        self.assertTrue(custom_eq(result, expected_result))
+        self.assertTrue(custom_eq(custom_list_1, expected_custom_list_1))
+        self.assertTrue(custom_eq(custom_list_2, expected_custom_list_2))
 
         custom_list_1 = CustomList([])
+        expected_custom_list_1 = CustomList([])
         custom_list_2 = CustomList([5, 6, 7, 8])
+        expected_custom_list_2 = CustomList([5, 6, 7, 8])
+        result = custom_list_1 + custom_list_2
         expected_result = CustomList([5, 6, 7, 8])
-        self.assertEqual(custom_list_1 + custom_list_2, expected_result)
+        self.assertTrue(isinstance(result, CustomList))
+        self.assertTrue(custom_eq(result, expected_result))
+        self.assertTrue(custom_eq(custom_list_1, expected_custom_list_1))
+        self.assertTrue(custom_eq(custom_list_2, expected_custom_list_2))
 
     def test_custom_list_add_default_list(self):
-        custom_list = CustomList([1, 2, 3, 4])
+        custom_list_1 = CustomList([1, 2, 3, 4])
+        expected_custom_list_1 = CustomList([1, 2, 3, 4])
         default_list = [5, 6, 7, 8]
+        expected_default_list = [5, 6, 7, 8]
+        result_1 = custom_list_1 + default_list
+        result_2 = default_list + custom_list_1
         expected_result = CustomList([6, 8, 10, 12])
-        self.assertEqual(custom_list + default_list, expected_result)
-        self.assertEqual(default_list + custom_list, expected_result)
+        self.assertTrue(isinstance(result_1, CustomList))
+        self.assertTrue(custom_eq(result_1, expected_result))
+        self.assertTrue(isinstance(result_2, CustomList))
+        self.assertTrue(custom_eq(result_2, expected_result))
+        self.assertTrue(custom_eq(custom_list_1, expected_custom_list_1))
+        self.assertTrue(custom_eq(default_list, expected_default_list))
 
-        custom_list = CustomList([1.1, 2.2, 3.3, 4.4])
+        custom_list_1 = CustomList([1.1, 2.2, 3.3, 4.4])
+        expected_custom_list_1 = CustomList([1.1, 2.2, 3.3, 4.4])
         default_list = [5, 6, 7, 8]
+        expected_default_list = [5, 6, 7, 8]
+        result_1 = custom_list_1 + default_list
+        result_2 = default_list + custom_list_1
         expected_result = CustomList([6.1, 8.2, 10.3, 12.4])
-        self.assertEqual(custom_list + default_list, expected_result)
-        self.assertEqual(default_list + custom_list, expected_result)
+        self.assertTrue(isinstance(result_1, CustomList))
+        self.assertTrue(custom_eq(result_1, expected_result))
+        self.assertTrue(isinstance(result_2, CustomList))
+        self.assertTrue(custom_eq(result_2, expected_result))
+        self.assertTrue(custom_eq(custom_list_1, expected_custom_list_1))
+        self.assertTrue(custom_eq(default_list, expected_default_list))
 
-        custom_list = CustomList([1, 2, 3, 4])
+        custom_list_1 = CustomList([1, 2, 3, 4])
+        expected_custom_list_1 = CustomList([1, 2, 3, 4])
         default_list = [5.1, 6.2, 7.3, 8.4]
+        expected_default_list = [5.1, 6.2, 7.3, 8.4]
+        result_1 = custom_list_1 + default_list
+        result_2 = default_list + custom_list_1
         expected_result = CustomList([6.1, 8.2, 10.3, 12.4])
-        self.assertEqual(custom_list + default_list, expected_result)
-        self.assertEqual(default_list + custom_list, expected_result)
+        self.assertTrue(isinstance(result_1, CustomList))
+        self.assertTrue(custom_eq(result_1, expected_result))
+        self.assertTrue(isinstance(result_2, CustomList))
+        self.assertTrue(custom_eq(result_2, expected_result))
+        self.assertTrue(custom_eq(custom_list_1, expected_custom_list_1))
+        self.assertTrue(custom_eq(default_list, expected_default_list))
 
-        custom_list = CustomList([1.1, 2.2, 3.3, 4.4])
+        custom_list_1 = CustomList([1.1, 2.2, 3.3, 4.4])
+        expected_custom_list_1 = CustomList([1.1, 2.2, 3.3, 4.4])
         default_list = [5.1, 6.2, 7.3, 8.4]
+        expected_default_list = [5.1, 6.2, 7.3, 8.4]
+        result_1 = custom_list_1 + default_list
+        result_2 = default_list + custom_list_1
         expected_result = CustomList([6.2, 8.4, 10.6, 12.8])
-        self.assertEqual(custom_list + default_list, expected_result)
-        self.assertEqual(default_list + custom_list, expected_result)
+        self.assertTrue(isinstance(result_1, CustomList))
+        self.assertTrue(custom_eq(result_1, expected_result))
+        self.assertTrue(isinstance(result_2, CustomList))
+        self.assertTrue(custom_eq(result_2, expected_result))
+        self.assertTrue(custom_eq(custom_list_1, expected_custom_list_1))
+        self.assertTrue(custom_eq(default_list, expected_default_list))
 
-        custom_list = CustomList([1, 2.2, 3, 4.4])
+        custom_list_1 = CustomList([1, 2.2, 3, 4.4])
+        expected_custom_list_1 = CustomList([1, 2.2, 3, 4.4])
         default_list = [5.1, 6, 7.3, 8]
+        expected_default_list = [5.1, 6, 7.3, 8]
+        result_1 = custom_list_1 + default_list
+        result_2 = default_list + custom_list_1
         expected_result = CustomList([6.1, 8.2, 10.3, 12.4])
-        self.assertEqual(custom_list + default_list, expected_result)
-        self.assertEqual(default_list + custom_list, expected_result)
+        self.assertTrue(isinstance(result_1, CustomList))
+        self.assertTrue(custom_eq(result_1, expected_result))
+        self.assertTrue(isinstance(result_2, CustomList))
+        self.assertTrue(custom_eq(result_2, expected_result))
+        self.assertTrue(custom_eq(custom_list_1, expected_custom_list_1))
+        self.assertTrue(custom_eq(default_list, expected_default_list))
 
     def test_custom_list_add_default_list_with_different_length(self):
         custom_list = CustomList([1, 2])
-        default_list = CustomList([5, 6, 7, 8])
+        expected_custom_list = CustomList([1, 2])
+        default_list = [5, 6, 7, 8]
+        expected_default_list = [5, 6, 7, 8]
+        result = custom_list + default_list
         expected_result = CustomList([6, 8, 7, 8])
-        self.assertEqual(custom_list + default_list, expected_result)
+        self.assertTrue(isinstance(result, CustomList))
+        self.assertTrue(custom_eq(result, expected_result))
+        self.assertTrue(custom_eq(custom_list, expected_custom_list))
+        self.assertTrue(custom_eq(default_list, expected_default_list))
 
         custom_list = CustomList([1, 2, 3, 4])
-        default_list = CustomList([5, 6])
+        expected_custom_list = CustomList([1, 2, 3, 4])
+        default_list = [5, 6]
+        expected_default_list = [5, 6]
+        result = custom_list + default_list
         expected_result = CustomList([6, 8, 3, 4])
-        self.assertEqual(custom_list + default_list, expected_result)
-
-        custom_list = CustomList([1, 2, 3])
-        default_list = CustomList([5, 6, 7, 8])
-        expected_result = CustomList([6, 8, 10, 8])
-        self.assertEqual(custom_list + default_list, expected_result)
-
-        custom_list = CustomList([1, 2, 3, 4])
-        default_list = CustomList([5, 6, 7])
-        expected_result = CustomList([6, 8, 10, 4])
-        self.assertEqual(custom_list + default_list, expected_result)
-
-        custom_list = CustomList([1])
-        default_list = CustomList([5, 6, 7, 8])
-        expected_result = CustomList([6, 6, 7, 8])
-        self.assertEqual(custom_list + default_list, expected_result)
-
-        custom_list = CustomList([1, 2, 3, 4])
-        default_list = CustomList([5])
-        expected_result = CustomList([6, 2, 3, 4])
-        self.assertEqual(custom_list + default_list, expected_result)
-
-        custom_list = CustomList([])
-        default_list = CustomList([5, 6, 7, 8])
-        expected_result = CustomList([5, 6, 7, 8])
-        self.assertEqual(custom_list + default_list, expected_result)
-
-        custom_list = CustomList([1, 2, 3, 4])
-        default_list = CustomList([])
-        expected_result = CustomList([1, 2, 3, 4])
-        self.assertEqual(custom_list + default_list, expected_result)
+        self.assertTrue(isinstance(result, CustomList))
+        self.assertTrue(custom_eq(result, expected_result))
+        self.assertTrue(custom_eq(custom_list, expected_custom_list))
+        self.assertTrue(custom_eq(default_list, expected_default_list))
 
     def test_custom_list_add_invalid_type(self):
         custom_list = CustomList([1, 2, 3, 4])
@@ -194,138 +273,200 @@ class TestCustomList(unittest.TestCase):
 
     def test_custom_list_subtract_custom_list(self):
         custom_list_1 = CustomList([1, 2, 3, 4])
+        expected_custom_list_1 = CustomList([1, 2, 3, 4])
         custom_list_2 = CustomList([5, 6, 7, 8])
+        expected_custom_list_2 = CustomList([5, 6, 7, 8])
+        result = custom_list_1 - custom_list_2
         expected_result = CustomList([-4, -4, -4, -4])
-        self.assertEqual(custom_list_1 - custom_list_2, expected_result)
+        self.assertTrue(isinstance(result, CustomList))
+        self.assertTrue(custom_eq(result, expected_result))
+        self.assertTrue(custom_eq(custom_list_1, expected_custom_list_1))
+        self.assertTrue(custom_eq(custom_list_2, expected_custom_list_2))
 
         custom_list_1 = CustomList([1.1, 2.2, 3.3, 4.4])
+        expected_custom_list_1 = CustomList([1.1, 2.2, 3.3, 4.4])
         custom_list_2 = CustomList([5.1, 6.2, 7.3, 8.4])
+        expected_custom_list_2 = CustomList([5.1, 6.2, 7.3, 8.4])
+        result = custom_list_1 - custom_list_2
         expected_result = CustomList([-4.0, -4.0, -4.0, -4.0])
-        self.assertEqual(custom_list_1 - custom_list_2, expected_result)
+        self.assertTrue(isinstance(result, CustomList))
+        self.assertTrue(custom_eq(result, expected_result))
+        self.assertTrue(custom_eq(custom_list_1, expected_custom_list_1))
+        self.assertTrue(custom_eq(custom_list_2, expected_custom_list_2))
 
         custom_list_1 = CustomList([1.1, 2.2, 3.3, 4.4])
+        expected_custom_list_1 = CustomList([1.1, 2.2, 3.3, 4.4])
         custom_list_2 = CustomList([5, 6, 7, 8])
+        expected_custom_list_2 = CustomList([5, 6, 7, 8])
+        result = custom_list_1 - custom_list_2
         expected_result = CustomList([-3.9, -3.8, -3.7, -3.6])
-        self.assertEqual(custom_list_1 - custom_list_2, expected_result)
+        self.assertTrue(isinstance(result, CustomList))
+        self.assertTrue(custom_eq(result, expected_result))
+        self.assertTrue(custom_eq(custom_list_1, expected_custom_list_1))
+        self.assertTrue(custom_eq(custom_list_2, expected_custom_list_2))
 
         custom_list_1 = CustomList([1.1, 2, 3.3, 4])
+        expected_custom_list_1 = CustomList([1.1, 2, 3.3, 4])
         custom_list_2 = CustomList([5, 6.2, 7, 8.4])
+        expected_custom_list_2 = CustomList([5, 6.2, 7, 8.4])
+        result = custom_list_1 - custom_list_2
         expected_result = CustomList([-3.9, -4.2, -3.7, -4.4])
-        self.assertEqual(custom_list_1 - custom_list_2, expected_result)
+        self.assertTrue(isinstance(result, CustomList))
+        self.assertTrue(custom_eq(result, expected_result))
+        self.assertTrue(custom_eq(custom_list_1, expected_custom_list_1))
+        self.assertTrue(custom_eq(custom_list_2, expected_custom_list_2))
 
     def test_custom_list_sub_custom_list_with_different_length(self):
         custom_list_1 = CustomList([1, 2])
+        expected_custom_list_1 = CustomList([1, 2])
         custom_list_2 = CustomList([5, 6, 7, 8])
+        expected_custom_list_2 = CustomList([5, 6, 7, 8])
+        result = custom_list_1 - custom_list_2
         expected_result = CustomList([-4, -4, -7, -8])
-        self.assertEqual(custom_list_1 - custom_list_2, expected_result)
+        self.assertTrue(isinstance(result, CustomList))
+        self.assertTrue(custom_eq(result, expected_result))
+        self.assertTrue(custom_eq(custom_list_1, expected_custom_list_1))
+        self.assertTrue(custom_eq(custom_list_2, expected_custom_list_2))
 
         custom_list_1 = CustomList([1, 2, 3])
+        expected_custom_list_1 = CustomList([1, 2, 3])
         custom_list_2 = CustomList([5, 6, 7, 8])
+        expected_custom_list_2 = CustomList([5, 6, 7, 8])
+        result = custom_list_1 - custom_list_2
         expected_result = CustomList([-4, -4, -4, -8])
-        self.assertEqual(custom_list_1 - custom_list_2, expected_result)
+        self.assertTrue(isinstance(result, CustomList))
+        self.assertTrue(custom_eq(result, expected_result))
+        self.assertTrue(custom_eq(custom_list_1, expected_custom_list_1))
+        self.assertTrue(custom_eq(custom_list_2, expected_custom_list_2))
 
         custom_list_1 = CustomList([1])
+        expected_custom_list_1 = CustomList([1])
         custom_list_2 = CustomList([5, 6, 7, 8])
+        expected_custom_list_2 = CustomList([5, 6, 7, 8])
+        result = custom_list_1 - custom_list_2
         expected_result = CustomList([-4, -6, -7, -8])
-        self.assertEqual(custom_list_1 - custom_list_2, expected_result)
+        self.assertTrue(isinstance(result, CustomList))
+        self.assertTrue(custom_eq(result, expected_result))
+        self.assertTrue(custom_eq(custom_list_1, expected_custom_list_1))
+        self.assertTrue(custom_eq(custom_list_2, expected_custom_list_2))
 
         custom_list_1 = CustomList([])
+        expected_custom_list_1 = CustomList([])
         custom_list_2 = CustomList([5, 6, 7, 8])
+        expected_custom_list_2 = CustomList([5, 6, 7, 8])
+        result = custom_list_1 - custom_list_2
         expected_result = CustomList([-5, -6, -7, -8])
-        self.assertEqual(custom_list_1 - custom_list_2, expected_result)
+        self.assertTrue(isinstance(result, CustomList))
+        self.assertTrue(custom_eq(result, expected_result))
+        self.assertTrue(custom_eq(custom_list_1, expected_custom_list_1))
+        self.assertTrue(custom_eq(custom_list_2, expected_custom_list_2))
 
     def test_custom_list_subtract_default_list(self):
         custom_list = CustomList([1, 2, 3, 4])
+        expected_custom_list = CustomList([1, 2, 3, 4])
         default_list = [5, 6, 7, 8]
-        expected_result1 = CustomList([-4, -4, -4, -4])
-        expected_result2 = CustomList([4, 4, 4, 4])
-        self.assertEqual(custom_list - default_list, expected_result1)
-        self.assertEqual(default_list - custom_list, expected_result2)
+        expected_default_list = [5, 6, 7, 8]
+        result_1 = custom_list - default_list
+        result_2 = default_list - custom_list
+        expected_result_1 = CustomList([-4, -4, -4, -4])
+        expected_result_2 = CustomList([4, 4, 4, 4])
+        self.assertTrue(isinstance(result_1, CustomList))
+        self.assertTrue(isinstance(result_2, CustomList))
+        self.assertTrue(custom_eq(result_1, expected_result_1))
+        self.assertTrue(custom_eq(result_2, expected_result_2))
+        self.assertTrue(custom_eq(custom_list, expected_custom_list))
+        self.assertTrue(custom_eq(default_list, expected_default_list))
 
         custom_list = CustomList([1.1, 2.2, 3.3, 4.4])
+        expected_custom_list = CustomList([1.1, 2.2, 3.3, 4.4])
         default_list = [5, 6, 7, 8]
-        expected_result1 = CustomList([-3.9, -3.8, -3.7, -3.6])
-        expected_result2 = CustomList([3.9, 3.8, 3.7, 3.6])
-        self.assertEqual(custom_list - default_list, expected_result1)
-        self.assertEqual(default_list - custom_list, expected_result2)
+        expected_default_list = [5, 6, 7, 8]
+        result_1 = custom_list - default_list
+        result_2 = default_list - custom_list
+        expected_result_1 = CustomList([-3.9, -3.8, -3.7, -3.6])
+        expected_result_2 = CustomList([3.9, 3.8, 3.7, 3.6])
+        self.assertTrue(isinstance(result_1, CustomList))
+        self.assertTrue(isinstance(result_2, CustomList))
+        self.assertTrue(custom_eq(result_1, expected_result_1))
+        self.assertTrue(custom_eq(result_2, expected_result_2))
+        self.assertTrue(custom_eq(custom_list, expected_custom_list))
+        self.assertTrue(custom_eq(default_list, expected_default_list))
 
         custom_list = CustomList([1, 2, 3, 4])
+        expected_custom_list = CustomList([1, 2, 3, 4])
         default_list = [5.1, 6.2, 7.3, 8.4]
-        expected_result1 = CustomList([-4.1, -4.2, -4.3, -4.4])
-        expected_result2 = CustomList([4.1, 4.2, 4.3, 4.4])
-        self.assertEqual(custom_list - default_list, expected_result1)
-        self.assertEqual(default_list - custom_list, expected_result2)
+        expected_default_list = [5.1, 6.2, 7.3, 8.4]
+        result_1 = custom_list - default_list
+        result_2 = default_list - custom_list
+        expected_result_1 = CustomList([-4.1, -4.2, -4.3, -4.4])
+        expected_result_2 = CustomList([4.1, 4.2, 4.3, 4.4])
+        self.assertTrue(isinstance(result_1, CustomList))
+        self.assertTrue(isinstance(result_2, CustomList))
+        self.assertTrue(custom_eq(result_1, expected_result_1))
+        self.assertTrue(custom_eq(result_2, expected_result_2))
+        self.assertTrue(custom_eq(custom_list, expected_custom_list))
+        self.assertTrue(custom_eq(default_list, expected_default_list))
 
         custom_list = CustomList([1.1, 2.2, 3.3, 4.4])
+        expected_custom_list = CustomList([1.1, 2.2, 3.3, 4.4])
         default_list = [5.1, 6.2, 7.3, 8.4]
-        expected_result1 = CustomList([-4.0, -4.0, -4.0, -4.0])
-        expected_result2 = CustomList([4.0, 4.0, 4.0, 4.0])
-        self.assertEqual(custom_list - default_list, expected_result1)
-        self.assertEqual(default_list - custom_list, expected_result2)
+        expected_default_list = [5.1, 6.2, 7.3, 8.4]
+        result_1 = custom_list - default_list
+        result_2 = default_list - custom_list
+        expected_result_1 = CustomList([-4.0, -4.0, -4.0, -4.0])
+        expected_result_2 = CustomList([4.0, 4.0, 4.0, 4.0])
+        self.assertTrue(isinstance(result_1, CustomList))
+        self.assertTrue(isinstance(result_2, CustomList))
+        self.assertTrue(custom_eq(result_1, expected_result_1))
+        self.assertTrue(custom_eq(result_2, expected_result_2))
+        self.assertTrue(custom_eq(custom_list, expected_custom_list))
+        self.assertTrue(custom_eq(default_list, expected_default_list))
 
         custom_list = CustomList([1, 2.2, 3, 4.4])
+        expected_custom_list = CustomList([1, 2.2, 3, 4.4])
         default_list = [5.1, 6, 7.3, 8]
-        expected_result1 = CustomList([-4.1, -3.8, -4.3, -3.6])
-        expected_result2 = CustomList([4.1, 3.8, 4.3, 3.6])
-        self.assertEqual(custom_list - default_list, expected_result1)
-        self.assertEqual(default_list - custom_list, expected_result2)
+        expected_default_list = [5.1, 6, 7.3, 8]
+        result_1 = custom_list - default_list
+        result_2 = default_list - custom_list
+        expected_result_1 = CustomList([-4.1, -3.8, -4.3, -3.6])
+        expected_result_2 = CustomList([4.1, 3.8, 4.3, 3.6])
+        self.assertTrue(isinstance(result_1, CustomList))
+        self.assertTrue(isinstance(result_2, CustomList))
+        self.assertTrue(custom_eq(result_1, expected_result_1))
+        self.assertTrue(custom_eq(result_2, expected_result_2))
+        self.assertTrue(custom_eq(custom_list, expected_custom_list))
+        self.assertTrue(custom_eq(default_list, expected_default_list))
 
     def test_custom_list_sub_default_list_with_different_length(self):
         custom_list = CustomList([1, 2])
-        default_list = CustomList([5, 6, 7, 8])
-        expected_result1 = CustomList([-4, -4, -7, -8])
-        expected_result2 = CustomList([4, 4, 7, 8])
-        self.assertEqual(custom_list - default_list, expected_result1)
-        self.assertEqual(default_list - custom_list, expected_result2)
+        expected_custom_list = CustomList([1, 2])
+        default_list = [5, 6, 7, 8]
+        expected_default_list = [5, 6, 7, 8]
+        result_1 = custom_list - default_list
+        result_2 = default_list - custom_list
+        expected_result_1 = CustomList([-4, -4, -7, -8])
+        expected_result_2 = CustomList([4, 4, 7, 8])
+        self.assertTrue(isinstance(result_1, CustomList))
+        self.assertTrue(isinstance(result_2, CustomList))
+        self.assertTrue(custom_eq(result_1, expected_result_1))
+        self.assertTrue(custom_eq(result_2, expected_result_2))
+        self.assertTrue(custom_eq(custom_list, expected_custom_list))
+        self.assertTrue(custom_eq(default_list, expected_default_list))
 
         custom_list = CustomList([1, 2, 3, 4])
-        default_list = CustomList([5, 6])
-        expected_result1 = CustomList([-4, -4, 3, 4])
-        expected_result2 = CustomList([4, 4, -3, -4])
-        self.assertEqual(custom_list - default_list, expected_result1)
-        self.assertEqual(default_list - custom_list, expected_result2)
-
-        custom_list = CustomList([1, 2, 3])
-        default_list = CustomList([5, 6, 7, 8])
-        expected_result1 = CustomList([-4, -4, -4, -8])
-        expected_result2 = CustomList([4, 4, 4, 8])
-        self.assertEqual(custom_list - default_list, expected_result1)
-        self.assertEqual(default_list - custom_list, expected_result2)
-
-        custom_list = CustomList([1, 2, 3, 4])
-        default_list = CustomList([5, 6, 7])
-        expected_result1 = CustomList([-4, -4, -4, 4])
-        expected_result2 = CustomList([4, 4, 4, -4])
-        self.assertEqual(custom_list - default_list, expected_result1)
-        self.assertEqual(default_list - custom_list, expected_result2)
-
-        custom_list = CustomList([1])
-        default_list = CustomList([5, 6, 7, 8])
-        expected_result1 = CustomList([-4, -6, -7, -8])
-        expected_result2 = CustomList([4, 6, 7, 8])
-        self.assertEqual(custom_list - default_list, expected_result1)
-        self.assertEqual(default_list - custom_list, expected_result2)
-
-        custom_list = CustomList([1, 2, 3, 4])
-        default_list = CustomList([5])
-        expected_result1 = CustomList([-4, 2, 3, 4])
-        expected_result2 = CustomList([4, -2, -3, -4])
-        self.assertEqual(custom_list - default_list, expected_result1)
-        self.assertEqual(default_list - custom_list, expected_result2)
-
-        custom_list = CustomList([])
-        default_list = CustomList([5, 6, 7, 8])
-        expected_result1 = CustomList([-5, -6, -7, -8])
-        expected_result2 = CustomList([5, 6, 7, 8])
-        self.assertEqual(custom_list - default_list, expected_result1)
-        self.assertEqual(default_list - custom_list, expected_result2)
-
-        custom_list = CustomList([1, 2, 3, 4])
-        default_list = CustomList([])
-        expected_result1 = CustomList([1, 2, 3, 4])
-        expected_result2 = CustomList([-1, -2, -3, -4])
-        self.assertEqual(custom_list - default_list, expected_result1)
-        self.assertEqual(default_list - custom_list, expected_result2)
+        expected_custom_list = CustomList([1, 2, 3, 4])
+        default_list = [5, 6]
+        expected_default_list = [5, 6]
+        result_1 = custom_list - default_list
+        result_2 = default_list - custom_list
+        expected_result_1 = CustomList([-4, -4, 3, 4])
+        expected_result_2 = CustomList([4, 4, -3, -4])
+        self.assertTrue(isinstance(result_1, CustomList))
+        self.assertTrue(isinstance(result_2, CustomList))
+        self.assertTrue(custom_eq(result_1, expected_result_1))
+        self.assertTrue(custom_eq(result_2, expected_result_2))
+        self.assertTrue(custom_eq(custom_list, expected_custom_list))
+        self.assertTrue(custom_eq(default_list, expected_default_list))
 
     def test_custom_list_subtract_invalid_type(self):
         custom_list = CustomList([1, 2, 3, 4])
