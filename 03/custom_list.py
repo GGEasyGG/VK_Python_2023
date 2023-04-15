@@ -62,10 +62,7 @@ class CustomList(list):
         if not isinstance(other, CustomList):
             raise TypeError('Only the CustomList can be compared')
 
-        if sum(self) != sum(other):
-            return False
-        else:
-            return True
+        return sum(self) == sum(other)
 
     def __ne__(self, other: CustomList) -> bool:
         return not self == other
@@ -74,10 +71,7 @@ class CustomList(list):
         if not isinstance(other, CustomList):
             raise TypeError('Only the CustomList can be compared')
 
-        if sum(self) < sum(other):
-            return True
-        else:
-            return False
+        return sum(self) < sum(other)
 
     def __ge__(self, other: CustomList) -> bool:
         return not self < other
