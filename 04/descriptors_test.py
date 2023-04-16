@@ -186,3 +186,39 @@ class TestDescriptors(unittest.TestCase):
         self.assertIsNone(desc.__set__(None, "Male"))
         self.assertIsNone(desc.__get__(None))
         self.assertIsNone(desc.__delete__(None))
+
+    def test_email_address_descriptor_set_invalid_value(self):
+        self.person.email = "test@example.com"
+        self.assertEqual(self.person.email, "test@example.com")
+        self.assertTrue(hasattr(self.person, 'email_email_field'))
+
+        with self.assertRaises(ValueError) as err:
+            self.person.email = "test@example"
+
+        self.assertEqual(str(err.exception), 'email_email_field must be a valid email address')
+
+        self.assertEqual(self.person.email, "test@example.com")
+
+    def test_phone_number_descriptor_set_invalid_value(self):
+        self.person.phone = "+7(123)456-78-90"
+        self.assertEqual(self.person.phone, "+7(123)456-78-90")
+        self.assertTrue(hasattr(self.person, 'phone_phone_number_field'))
+
+        with self.assertRaises(ValueError) as err:
+            self.person.phone = "+7(123456) 78-90"
+
+        self.assertEqual(str(err.exception), 'phone_phone_number_field must be a valid russian phone number')
+
+        self.assertEqual(self.person.phone, "+7(123)456-78-90")
+
+    def test_gender_descriptor_valid_gender_set_invalid_value(self):
+        self.person.gender = "Male"
+        self.assertEqual(self.person.gender, "Male")
+        self.assertTrue(hasattr(self.person, 'gender_gender_field'))
+
+        with self.assertRaises(ValueError) as err:
+            self.person.gender = "Other"
+
+        self.assertEqual(str(err.exception), "gender_gender_field must be 'Male' or 'Female'")
+
+        self.assertEqual(self.person.gender, "Male")
