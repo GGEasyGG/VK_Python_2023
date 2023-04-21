@@ -12,17 +12,49 @@ class TestCustomMeta(unittest.TestCase):
                 self.b = 19.7
 
             def abc(self):
-                pass
+                return '123'
 
-            def __ert__(self):
-                pass
+            def __str__(self):
+                return 'TestClass'
 
         class Derived(TestClass):
             x = 12
             __qwe__ = 67
 
+        self.child_cls = Derived
+        self.cls = TestClass
         self.obj = TestClass()
         self.child = Derived()
+
+    def test_class_attribute(self):
+        self.assertTrue(hasattr(self.cls, "custom_my_attr"))
+        self.assertFalse(hasattr(self.cls, "my_attr"))
+        self.assertEqual(self.cls.custom_my_attr, 42)
+
+        self.assertTrue(hasattr(self.cls, "custom_abc"))
+        self.assertFalse(hasattr(self.cls, "abc"))
+
+        self.assertTrue(hasattr(self.cls, "__str__"))
+        self.assertFalse(hasattr(self.cls, "custom___str__"))
+
+    def test_child_class_attribute(self):
+        self.assertTrue(hasattr(self.child_cls, "custom_x"))
+        self.assertFalse(hasattr(self.child_cls, "x"))
+        self.assertEqual(self.child_cls.custom_x, 12)
+
+        self.assertTrue(hasattr(self.child_cls, "__qwe__"))
+        self.assertFalse(hasattr(self.child_cls, "custom___qwe__"))
+        self.assertEqual(self.child_cls.__qwe__, 67)
+
+        self.assertTrue(hasattr(self.child_cls, "custom_my_attr"))
+        self.assertFalse(hasattr(self.child_cls, "my_attr"))
+        self.assertEqual(self.child_cls.custom_my_attr, 42)
+
+        self.assertTrue(hasattr(self.child_cls, "custom_abc"))
+        self.assertFalse(hasattr(self.child_cls, "abc"))
+
+        self.assertTrue(hasattr(self.child_cls, "__str__"))
+        self.assertFalse(hasattr(self.child_cls, "custom___str__"))
 
     def test_custom_attribute(self):
         self.assertTrue(hasattr(self.obj, "custom_my_attr"))
@@ -39,9 +71,11 @@ class TestCustomMeta(unittest.TestCase):
 
         self.assertTrue(hasattr(self.obj, "custom_abc"))
         self.assertFalse(hasattr(self.obj, "abc"))
+        self.assertEqual(self.obj.custom_abc(), '123')
 
-        self.assertTrue(hasattr(self.obj, "__ert__"))
-        self.assertFalse(hasattr(self.obj, "custom___ert__"))
+        self.assertTrue(hasattr(self.obj, "__str__"))
+        self.assertFalse(hasattr(self.obj, "custom___str__"))
+        self.assertEqual(str(self.obj), "TestClass")
 
     def test_added_builtin_attribute(self):
         setattr(self.obj, "__abc__", 10)
@@ -71,14 +105,6 @@ class TestCustomMeta(unittest.TestCase):
         self.assertFalse(hasattr(self.obj, "custom_custom_b"))
         self.assertEqual(self.obj.custom_b, 30)
 
-    def test_overriding_builtin_attribute(self):
-        self.assertTrue(hasattr(self.obj, "__ert__"))
-        self.assertFalse(hasattr(self.obj, "custom___ert__"))
-        self.obj.__ert__ = 10
-        self.assertTrue(hasattr(self.obj, "__ert__"))
-        self.assertFalse(hasattr(self.obj, "custom___ert__"))
-        self.assertEqual(self.obj.__ert__, 10)
-
     def test_accessing_custom_attribute_through_base_class(self):
         self.assertTrue(hasattr(self.child, "custom_my_attr"))
         self.assertFalse(hasattr(self.child, "my_attr"))
@@ -94,9 +120,11 @@ class TestCustomMeta(unittest.TestCase):
 
         self.assertTrue(hasattr(self.child, "custom_abc"))
         self.assertFalse(hasattr(self.child, "abc"))
+        self.assertEqual(self.child.custom_abc(), '123')
 
-        self.assertTrue(hasattr(self.child, "__ert__"))
-        self.assertFalse(hasattr(self.child, "custom___ert__"))
+        self.assertTrue(hasattr(self.child, "__str__"))
+        self.assertFalse(hasattr(self.child, "custom___str__"))
+        self.assertEqual(str(self.child), "TestClass")
 
     def test_custom_attribute_from_child_class(self):
         self.assertEqual(self.child.custom_x, 12)
