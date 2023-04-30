@@ -4,6 +4,55 @@ from lru_cache import LRUCache
 
 
 class TestLRUCache(unittest.TestCase):
+    def test_one_size_cache(self):
+        cache = LRUCache(limit=1)
+        cache.set('a', 1)
+        self.assertEqual(cache.get('a'), 1)
+
+        lst = []
+        for elem in cache.cache:
+            lst.append(elem)
+
+        self.assertEqual(lst, ['a'])
+
+        cache.set('b', 'abc')
+        self.assertEqual(cache.get('b'), 'abc')
+
+        lst = []
+        for elem in cache.cache:
+            lst.append(elem)
+
+        self.assertEqual(lst, ['b'])
+
+    def test_changed_element(self):
+        cache = LRUCache(limit=3)
+        cache.set('a', 1)
+        cache.set('b', 'abc')
+        self.assertEqual(cache.get('a'), 1)
+        self.assertEqual(cache.get('b'), 'abc')
+
+        lst = []
+        for elem in cache.cache:
+            lst.append(elem)
+
+        self.assertEqual(lst, ['a', 'b'])
+
+        cache.set('a', 5)
+
+        lst = []
+        for elem in cache.cache:
+            lst.append(elem)
+
+        self.assertEqual(lst, ['b', 'a'])
+
+        self.assertEqual(cache.get('a'), 5)
+
+        lst = []
+        for elem in cache.cache:
+            lst.append(elem)
+
+        self.assertEqual(lst, ['b', 'a'])
+
     def test_set_and_get(self):
         cache = LRUCache(limit=5)
         cache.set('a', 1)
