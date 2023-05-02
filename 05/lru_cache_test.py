@@ -25,11 +25,9 @@ class TestLRUCache(unittest.TestCase):
         self.assertEqual(lst, ['b'])
 
     def test_changed_element(self):
-        cache = LRUCache(limit=3)
+        cache = LRUCache(limit=2)
         cache.set('a', 1)
         cache.set('b', 'abc')
-        self.assertEqual(cache.get('a'), 1)
-        self.assertEqual(cache.get('b'), 'abc')
 
         lst = []
         for elem in cache.cache:
@@ -45,13 +43,16 @@ class TestLRUCache(unittest.TestCase):
 
         self.assertEqual(lst, ['b', 'a'])
 
-        self.assertEqual(cache.get('a'), 5)
+        cache.set('c', '123')
 
         lst = []
         for elem in cache.cache:
             lst.append(elem)
 
-        self.assertEqual(lst, ['b', 'a'])
+        self.assertEqual(lst, ['a', 'c'])
+
+        self.assertEqual(cache.get('a'), 5)
+        self.assertEqual(cache.get('c'), '123')
 
     def test_set_and_get(self):
         cache = LRUCache(limit=5)
