@@ -2,6 +2,7 @@ import weakref
 import time
 import cProfile
 import functools
+from memory_profiler import profile
 
 
 class NormalClass:
@@ -87,13 +88,47 @@ def test():
 cProfile.run('test()', sort='cumulative')
 
 
+@profile
+def test_normal():
+    normal_instances = [NormalClass('abc', i) for i in range(1000000)]
+
+    for instance in normal_instances:
+        instance.s
+        instance.n += 1
+
+
+@profile
+def test_slots():
+    slots_instances = [SlotsClass('abc', i) for i in range(1000000)]
+
+    for instance in slots_instances:
+        instance.s
+        instance.n += 1
+
+
+@profile
+def test_weakref():
+    weakref_instances = [WeakrefClass(TestClass(), TestClass()) for i in range(1000000)]
+
+    for instance in weakref_instances:
+        instance.s()
+        instance.n()
+
+
+test_normal()
+test_slots()
+test_weakref()
+
+
 def profile_deco(func):
+    profiler = cProfile.Profile()
+
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
-        profiler = cProfile.Profile()
         result = profiler.runcall(func, *args, **kwargs)
-        wrapper.profiler = profiler
         return result
+
+    wrapper.print_stats = profiler.print_stats
     return wrapper
 
 
@@ -109,7 +144,9 @@ def sub(a, b):
 
 add(1, 2)
 add(4, 5)
+add(2, 3)
 sub(4, 5)
+sub(5, 4)
 
-add.profiler.print_stats()
-sub.profiler.print_stats()
+add.print_stats()
+sub.print_stats()
