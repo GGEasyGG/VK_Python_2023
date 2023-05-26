@@ -1,20 +1,13 @@
 import time
 import asyncio
+import argparse
 import aiohttp
 import aiofiles
-import argparse
 
 
 async def fetch_url(session, url):
     async with session.get(url) as response:
         return {url: await response.text()}
-
-
-async def fetch_urls(urls):
-    async with aiohttp.ClientSession() as session:
-        tasks = [asyncio.ensure_future(fetch_url(session, url)) for url in urls]
-        batch_results = await asyncio.gather(*tasks)
-        return batch_results
 
 
 async def read_urls_async(url_file_path):
@@ -23,25 +16,38 @@ async def read_urls_async(url_file_path):
             yield line.strip()
 
 
-async def run_batches(concurrency, url_file_path):
+async def process_urls(concurrency, url_file_path):
     results = []
 
-    async for batch in batch_urls(read_urls_async(url_file_path), concurrency):
-        batch_results = await fetch_urls(batch)
-        results.extend(batch_results)
+    async def worker():
+        async with aiohttp.ClientSession() as session:
+            while True:
+                url = await get_next_url()
+                if url is None:
+                    break
+                result = await fetch_url(session, url)
+                results.append(result)
+
+    async def get_next_url():
+        async with lock:
+            try:
+                url = await url_iterator.__anext__()
+            except StopAsyncIteration:
+                url = None
+            return url
+
+    lock = asyncio.Lock()
+
+    url_iterator = read_urls_async(url_file_path)
+
+    worker_tasks = []
+    for _ in range(concurrency):
+        task = asyncio.create_task(worker())
+        worker_tasks.append(task)
+
+    await asyncio.gather(*worker_tasks)
 
     return results
-
-
-async def batch_urls(urls, batch_size):
-    batch = []
-    async for url in urls:
-        batch.append(url)
-        if len(batch) == batch_size:
-            yield batch
-            batch = []
-    if len(batch) > 0:
-        yield batch
 
 
 if __name__ == '__main__':
@@ -51,10 +57,10 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     start = time.time()
-    result = asyncio.run(run_batches(args.concurrency, args.url_file))
+    final_result = asyncio.run(process_urls(args.concurrency, args.url_file))
     end = time.time()
 
     total_time = end - start
     print(f'Execution time: {round(total_time, 3)} seconds')
 
-    print(*result, sep='\n\n')
+    print(*final_result, sep='\n\n')
