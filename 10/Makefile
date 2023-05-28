@@ -9,6 +9,8 @@ all: venv compile install
 venv:
 	@echo "Creating virtual environment..."
 	@python3 -m venv $(VENV_DIR)
+	@echo "Update pip,,,"
+	@$(PIP) install --upgrade pip
 	@echo "Installing packages..."
 	@$(PIP) install Faker
 	@$(PIP) install ujson
